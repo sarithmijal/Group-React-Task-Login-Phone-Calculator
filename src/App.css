@@ -88,3 +88,22 @@ button:hover {
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
 }
+.mensaje-error {
+  color: #b91c1c;
+  background-color: #fee2e2;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.saludo {
+  margin: 0;
+  text-align: center;
+  color: #4b5563;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

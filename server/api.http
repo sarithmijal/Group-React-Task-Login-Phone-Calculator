@@ -1,0 +1,44 @@
+### Pruebas de la API (VS Code con la extensión "REST Client", o copia a Postman)
+@base = http://localhost:3001/api
+
+### Estado
+GET {{base}}/health
+
+### Login correcto -> copia el "token" de la respuesta
+POST {{base}}/login
+Content-Type: application/json
+
+{ "username": "admin", "password": "1234" }
+
+### Login incorrecto -> 401
+POST {{base}}/login
+Content-Type: application/json
+
+{ "username": "admin", "password": "mala" }
+
+### Pega aquí el token
+@token = PEGA_EL_TOKEN
+
+### Suma
+POST {{base}}/sum
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{ "num1": 5, "num2": 7 }
+
+### Calculadora
+POST {{base}}/calculate
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{ "expresion": "(2+3)*4" }
+
+### Sin token -> 401
+POST {{base}}/sum
+Content-Type: application/json
+
+{ "num1": 1, "num2": 2 }
+
+### Logout
+POST {{base}}/logout
+Authorization: Bearer {{token}}

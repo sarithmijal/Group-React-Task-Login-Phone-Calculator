@@ -1,0 +1,16 @@
+{
+  "name": "mi-calculadora-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "API REST para el login, la suma y la calculadora",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
