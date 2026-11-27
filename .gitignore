@@ -11,6 +11,7 @@ frontend/.env
 # Build outputs
 dist/
 build/
+*.tsbuildinfo
 
 # Logs and OS files
 *.log
