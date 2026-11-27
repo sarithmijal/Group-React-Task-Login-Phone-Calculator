@@ -1,0 +1,91 @@
+name: CI - Integración continua
+
+# Se ejecuta en cada push y en cada Pull Request hacia dev, qa o main.
+on:
+  push:
+    branches: [dev, qa, main]
+  pull_request:
+    branches: [dev, qa, main]
+  workflow_dispatch: # permite correrlo a mano desde la pestaña Actions
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: Frontend (React + Vite)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Lint (oxlint)
+        run: npm run lint
+
+      - name: Build de producción
+        run: npm run build
+
+      - name: Guardar el build
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-dist
+          path: dist
+          retention-days: 7
+
+  backend:
+    name: Backend (API REST Express)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Pruebas unitarias
+        run: npm test
+
+      - name: Prueba de humo (levantar la API y llamar a los endpoints)
+        run: |
+          npm start &
+          for i in $(seq 1 20); do
+            curl -sf http://localhost:3001/api/health && break
+            sleep 1
+          done
+          echo "--- health"
+          curl -sf http://localhost:3001/api/health
+          echo
+          echo "--- login incorrecto debe dar 401"
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST http://localhost:3001/api/login \
+            -H 'Content-Type: application/json' -d '{"username":"admin","password":"mala"}')" = "401"
+          echo "--- login correcto"
+          TOKEN=$(curl -sf -X POST http://localhost:3001/api/login \
+            -H 'Content-Type: application/json' -d '{"username":"admin","password":"1234"}' | jq -r .token)
+          test -n "$TOKEN" && test "$TOKEN" != "null"
+          echo "--- suma"
+          test "$(curl -sf -X POST http://localhost:3001/api/sum \
+            -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" \
+            -d '{"num1":5,"num2":7}' | jq .resultado)" = "12"
+          echo "--- calculadora"
+          test "$(curl -sf -X POST http://localhost:3001/api/calculate \
+            -H 'Content-Type: application/json' -H "Authorization: Bearer $TOKEN" \
+            -d '{"expresion":"(2+3)*4"}' | jq .resultado)" = "20"
+          echo "Todos los endpoints responden bien"
