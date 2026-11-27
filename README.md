@@ -1,33 +1,39 @@
-# Workspace Portal (React + Chakra UI + Express + Supabase)
+# Workspace Portal (React + Chakra UI + Java Spring Boot MVC + Supabase)
 
-A full-stack web application in English with secure authentication (`bcrypt` + Supabase + HttpOnly JWT cookies + optional Google OAuth), a **Sum** module placeholder, and a mobile-style **Calculator**.
+A simple, clean full-stack web application in English with **Java Spring Boot MVC** on the backend, **React + Chakra UI** on the frontend, and **Supabase + BCrypt** for user authentication.
 
-## Project Structure
+## Architecture (MVC)
 
-- `backend/` — Express + TypeScript API (`helmet`, `cors`, `express-rate-limit`, `zod`, `bcryptjs`, `jsonwebtoken`, `@supabase/supabase-js`)
-- `frontend/` — React + Vite + TypeScript + Chakra UI
-- `supabase/schema.sql` — PostgreSQL schema & Row Level Security setup for Supabase
+### Backend (`backend/` — Java Spring Boot)
+- **Model:**
+  - `model/User.java` — User entity (`id`, `fullName`, `email`, `username`, `passwordHash`)
+  - `model/UserRepository.java` — Supabase REST client (`findByUsername`, `findByEmail`, `save`)
+- **Service:**
+  - `service/AuthService.java` — Password hashing and verification with `BCryptPasswordEncoder`
+- **Controller:**
+  - `controller/AuthController.java` — REST endpoints (`/api/auth/register`, `/api/auth/login`, `/api/auth/me`, `/api/auth/logout`) using `HttpSession` (`HttpOnly` cookie)
 
-## Setup
+### Frontend (`frontend/` — React + Chakra UI)
+- `components/LoginView.tsx` — Sign In & Create Account (`Full Name`, `Email`, `Username`, `Password`)
+- `components/DashboardView.tsx` — **Sum** and **Calculator** buttons
+- `components/SumView.tsx` — Sum module placeholder
+- `components/CalculatorView.tsx` — Mobile-style calculator
 
-### 1. Supabase Database
-1. Open your Supabase project's **SQL Editor** and run [`supabase/schema.sql`](./supabase/schema.sql).
-2. *(Optional for "Sign in with Google")*: In Supabase **Authentication → Providers → Google**, enable Google OAuth and add `http://localhost:5173` to your Redirect URLs.
+## How to Run
 
-### 2. Backend
-```bash
+### 1. Supabase
+Run [`supabase/schema.sql`](./supabase/schema.sql) in your Supabase **SQL Editor**.
+
+### 2. Backend (Spring Boot)
+```powershell
 cd backend
-cp .env.example .env
-# Fill in SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, and a 32+ char JWT_SECRET
-npm run dev
+.\mvnw.cmd spring-boot:run
 ```
+Runs on `http://localhost:4000`.
 
-### 3. Frontend
-```bash
+### 3. Frontend (React)
+```powershell
 cd frontend
-cp .env.example .env
-# Optionally fill in VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY for Google Sign-In
-npm run dev
+npm.cmd run dev
 ```
-
-Then open `http://localhost:5173`, create an account (or sign in), and choose **Sum** or **Calculator**.
+Runs on `http://localhost:5174` (or `5173`).
