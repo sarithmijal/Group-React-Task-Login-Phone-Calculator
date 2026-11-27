@@ -1,0 +1,226 @@
+/* Estilos específicos para FormScreen respetando la paleta y diseño del proyecto */
+.tarjeta-formulario {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 440px;
+  margin: 16px auto;
+  text-align: left;
+}
+
+.tarjeta-formulario h2 {
+  margin: 0 0 6px 0;
+  text-align: center;
+  color: #1f2937;
+  font-size: 22px;
+}
+
+.tarjeta-formulario .subtitulo {
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* Selector de pestañas */
+.tabs-selector {
+  display: flex;
+  gap: 6px;
+  background-color: #f3f4f6;
+  padding: 4px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.tab-boton {
+  flex: 1;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #4b5563;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.tab-boton:hover {
+  color: #1f2937;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.tab-boton.activa {
+  background-color: #2563eb;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.badge-libreria {
+  display: block;
+  text-align: center;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #1d4ed8;
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  margin-bottom: 14px;
+}
+
+/* Campos del formulario */
+.form-columna {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.campo-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.campo-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.campo-label .requerido {
+  color: #dc2626;
+  margin-left: 2px;
+}
+
+.campo-input,
+.campo-select,
+.campo-textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #1f2937;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.campo-input:focus,
+.campo-select:focus,
+.campo-textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.campo-input.error,
+.campo-select.error,
+.campo-textarea.error {
+  border-color: #dc2626;
+  background-color: #fffaf0;
+}
+
+.campo-input.error:focus,
+.campo-select.error:focus,
+.campo-textarea.error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+.campo-textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+
+/* Radio buttons */
+.radio-grupo {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 4px 0;
+}
+
+.radio-opcion {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+}
+
+.radio-opcion input[type="radio"] {
+  cursor: pointer;
+  accent-color: #2563eb;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+}
+
+/* Mensajes de error Zod */
+.mensaje-error {
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 500;
+  margin: 2px 0 0 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Acciones */
+.acciones-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Resumen de datos enviados */
+.resumen-contenedor {
+  background-color: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resumen-titulo {
+  font-size: 15px;
+  font-weight: 700;
+  color: #166534;
+  margin: 0 0 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.resumen-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1e40af;
+  background: #dbeafe;
+  padding: 2px 6px;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+.resumen-item {
+  font-size: 13px;
+  color: #1f2937;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.resumen-item strong {
+  color: #111827;
+}
